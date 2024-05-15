@@ -269,7 +269,7 @@ function logoutUser(req, res) {
 // Function to render the profile page
 function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
-    
+    // testing git push
 }
 
 // Function to update post likes
