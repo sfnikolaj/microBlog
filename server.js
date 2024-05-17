@@ -137,6 +137,7 @@ app.get('/profile', isAuthenticated, (req, res) => {
 });
 app.get('/avatar/:username', (req, res) => {
     // TODO: Serve the avatar image for the user
+    handleAvatar(req, res);
 });
 app.post('/register', (req, res) => {
     // TODO: Register a new user
@@ -273,8 +274,8 @@ function logoutUser(req, res) {
 function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
     const user = getCurrentUser(req);
-    const userPosts = getUserPosts(user);
-    
+    const posts = getPosts()//.filter(post => post.username === user.username);
+    res.render('profile', { user, posts });
 }
 
 // Function to update post likes
@@ -285,21 +286,37 @@ function updatePostLikes(req, res) {
 // Function to handle avatar generation and serving
 function handleAvatar(req, res) {
     // TODO: Generate and serve the user's avatar image
+    const username = req.params.username;
+    const user = findUserByUsername(username);
+    if (user) {
+        const letter = username.charAt(0).toUpperCase();
+        const avatar = generateAvatar(letter);
+        res.set('Content-Type', 'image/png');
+        res.send(avatar);
+    } else {
+        res.sendStatus(404);
+    }
 }
 
 // Function to get the current user from session
 function getCurrentUser(req) {
     // TODO: Return the user object if the session user ID matches
-    const username = req.body.username;
-    //console.log("Username: ", username);
-    const name = findUserByUsername(username);
-    if (name) {
-        //console.log("User ID:", name.id);
-        for (let user of users) {
-            if (user.id === name.id){
-                //console.log("User found");
-                return user;
-            }
+    // const username = req.body.username;
+    // //console.log("Username: ", username);
+    // const name = findUserByUsername(username);
+    // if (name) {
+    //     //console.log("User ID:", name.id);
+    //     for (let user of users) {
+    //         if (user.id === name.id){
+    //             //console.log("User found");
+    //             return user;
+    //         }
+    //     }
+    // }
+    const userId = req.session.userId;
+    for (let user of users) {
+        if (user.id === userId) {
+            return user;
         }
     }
 }
@@ -316,11 +333,25 @@ function addPost(title, content, user) {
 
 // Function to generate an image avatar
 function generateAvatar(letter, width = 100, height = 100) {
-    // TODO: Generate an avatar image with a letter
-    // Steps:
-    // 1. Choose a color scheme based on the letter
-    // 2. Create a canvas with the specified width and height
-    // 3. Draw the background color
-    // 4. Draw the letter in the center
-    // 5. Return the avatar as a PNG buffer
+    // Choose a color scheme based on the letter
+    const colors = ['#FF5733', '#C70039', '#900C3F', '#581845'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    // Create a canvas with the specified width and height
+    const canvas = canvas.createCanvas(width, height);
+    const context = canvas.getContext('2d');
+
+    // Draw the background color
+    context.fillStyle = color;
+    context.fillRect(0, 0, width, height);
+
+    // Draw the letter in the center
+    context.font = `${Math.floor(width / 2)}px Arial`;
+    context.fillStyle = 'white';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(letter, width / 2, height / 2);
+
+    // Return the avatar as a PNG buffer
+    return canvas.toBuffer();
 }
