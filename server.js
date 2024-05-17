@@ -133,6 +133,7 @@ app.post('/like/:id', (req, res) => {
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
+    renderProfile(req, res);
 });
 app.get('/avatar/:username', (req, res) => {
     // TODO: Serve the avatar image for the user
@@ -155,6 +156,7 @@ app.post('/login', (req, res) => {
 });
 app.get('/logout', (req, res) => {
     // TODO: Logout the user
+    logoutUser(req, res);
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
     // TODO: Delete a post if the current user is the owner
@@ -250,7 +252,8 @@ function loginUser(req, res) {
     const username = req.body.username;
     const user = findUserByUsername(username);
     if (user) {
-        //req.session.userId = user.id;
+        req.session.userId = user.id;
+        req.session.loggedIn = true;
         if(getCurrentUser(req)){
         res.redirect('/');
         }
@@ -262,14 +265,18 @@ function loginUser(req, res) {
 // Function to logout a user
 function logoutUser(req, res) {
     // TODO: Destroy session and redirect appropriately
-    req.session.destroy();
+
+    //req.session.destroy();
+    req.session.loggedIn = false;
     res.redirect('/');
 }
 
 // Function to render the profile page
 function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
-    // testing git push
+    const user = getCurrentUser(req);
+    const userPosts = getUserPosts(user);
+    
 }
 
 // Function to update post likes

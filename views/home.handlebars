@@ -7,9 +7,13 @@
         <!-- show the create post form when logged in -->
         <section class="post-form">
             <!-- make a header here -->
+            <h2>Create a Post</h2>
             <form action="/posts" method="POST">
                 <!-- title input field name = "title" -->
+                <input type="text" name="title" placeholder="Title" required>
                 <!-- text area input field name = "content" -->
+                <textarea name="content" placeholder="What's on your mind?" required></textarea>
+                
 
                 <div class="form-actions">
                     <button type="button" class="emoji-button" onclick="toggleEmojiPanel()">😀</button>
@@ -36,6 +40,7 @@
         </ul>
         {{else}}
             <!-- no posts, oh no, what now? -->
+            <p>No posts yet. Be the first to post!</p>
         {{/if}}
     </section>
 </section>
@@ -50,6 +55,16 @@
  so, put them in this array when the array is empty so 
  that you have them.
 */
+
+fetch('https://emoji-api.com/emojis?access_key=193ccd9062f5c798f9005612a2ae622ece77726b')
+    .then(response => response.json())
+    .then(data => {
+        allEmojis = data; // Assign the fetched emojis to the global variable
+        displayEmojis(allEmojis); // Display the emojis on the emoji panel
+    })
+    .catch(error => {
+        console.error('Error fetching emojis:', error);
+    });
 
 let allEmojis = [];  // Global list to hold all emojis
 
