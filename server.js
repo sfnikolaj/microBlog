@@ -255,9 +255,7 @@ function loginUser(req, res) {
     if (user) {
         req.session.userId = user.id;
         req.session.loggedIn = true;
-        if(getCurrentUser(req)){
         res.redirect('/');
-        }
     } else {
         res.redirect('/login?error=Invalid+username');
     }
@@ -265,7 +263,8 @@ function loginUser(req, res) {
 
 // Function to logout a user
 function logoutUser(req, res) {
-    // TODO: Destroy session and redirect appropriately
+    // TODO: Destroy session and redirect 
+    // Check for failure to destroy session and redirect to error page
     req.session.destroy();
     res.redirect('/');
 }

@@ -5,10 +5,15 @@
     </div>
     <div class="post-content preserve-newlines">
         <!-- the post -->
+        {{title}}
+        {{content}}
+        {{username}}
         <div class="post-status-bar">
             <!-- everything that is shown in the status bar -->
             <!-- Heart = ♥ -->
             <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
+            <button class="like-button" data-id="{{posts._id}}" onclick="handleLikeClick(event)">♥</button>
+            <button class="delete-button" data-id="{{posts._id}}" onclick="handleDeleteClick(event)"><i class="fas fa-trash-alt"></i></button>
         </div>        
     </div>
 </div>

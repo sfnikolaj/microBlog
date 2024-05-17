@@ -33,12 +33,12 @@
 
     <section class="posts-list">
         <!-- recent posts -->
-
+        <h2>Recent Posts</h2>
         {{#if posts.length}}
         <ul>
             {{#each posts}}
                 <!-- you have to pass the user in to posts and this is the syntax -->
-                {{> post this user=../user}}            
+                {{> post this user=../user}} 
             {{/each}}
         </ul>
         {{else}}
@@ -78,6 +78,7 @@ function toggleEmojiPanel() {
 
     if(container.style.display === 'block' && allEmojis.length == 0){
         // go "Fetch" you some emojis and show them off with displayEmojies
+
         
     }
 }
