@@ -266,8 +266,7 @@ function loginUser(req, res) {
 function logoutUser(req, res) {
     // TODO: Destroy session and redirect appropriately
 
-    //req.session.destroy();
-    req.session.loggedIn = false;
+    req.session.destroy();
     res.redirect('/');
 }
 
