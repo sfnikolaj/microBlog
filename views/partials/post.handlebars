@@ -22,14 +22,26 @@
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
 
-        // you might want to "fetch" something...        
+        // you might want to "fetch" something...       
+        fetch(`/posts/${postId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }) 
     }
 
     function handleDeleteClick(event) {
         const buttonElement = event.target.closest('.delete-button');
         const postId = buttonElement.getAttribute('data-id');        
 
-        // you might want to "fetch" something...        
+        // you might want to "fetch" something...  
+        fetch(`/posts/${postId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })      
         
     }    
 </script>

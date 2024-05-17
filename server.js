@@ -127,6 +127,13 @@ app.get('/post/:id', (req, res) => {
 });
 app.post('/posts', (req, res) => {
     // TODO: Add a new post and redirect to home
+    const title = req.body.title;
+    const content = req.body.content;
+    const user = getCurrentUser(req);
+    if (user) {
+        addPost(title, content, user);
+    }
+    res.redirect('/');
 });
 app.post('/like/:id', (req, res) => {
     // TODO: Update post likes
@@ -328,6 +335,15 @@ function getPosts() {
 // Function to add a new post
 function addPost(title, content, user) {
     // TODO: Create a new post object and add to posts array
+    const post = {
+        id: posts.length + 1,
+        title: title,
+        content: content,
+        username: user.username,
+        timestamp: new Date().toISOString(),
+        likes: 0,
+    };
+    posts.push(post);
 }
 
 // Function to generate an image avatar
