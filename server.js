@@ -137,6 +137,7 @@ app.post('/posts', (req, res) => {
 });
 app.post('/like/:id', (req, res) => {
     // TODO: Update post likes
+    updatePostLikes(req, res);
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
@@ -272,8 +273,15 @@ function loginUser(req, res) {
 function logoutUser(req, res) {
     // TODO: Destroy session and redirect 
     // Check for failure to destroy session and redirect to error page
-    req.session.destroy();
-    res.redirect('/');
+    req.session.destroy(err => {
+        if (err) {
+            res.redirect('/error');
+        }
+        else {
+            res.redirect('/');
+        }
+    });
+    //res.redirect('/');
 }
 
 // Function to render the profile page
@@ -287,6 +295,15 @@ function renderProfile(req, res) {
 // Function to update post likes
 function updatePostLikes(req, res) {
     // TODO: Increment post likes if conditions are met
+    const postId = parseInt(req.params.id);
+    const post = posts.find(post => post.id === postId);
+    console.log("button pressed");
+    if (post) {
+    post.likes++;
+    res.json({ likes: post.likes });
+    } else {
+        res.sendStatus(404);
+    }
 }
 
 // Function to handle avatar generation and serving

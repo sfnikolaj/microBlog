@@ -8,6 +8,7 @@
         {{title}}
         {{content}}
         {{username}}
+        {{likes}}
         <div class="post-status-bar">
             <!-- everything that is shown in the status bar -->
             <!-- Heart = ♥ -->
@@ -21,14 +22,14 @@
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
-
+        event.preventDefault();
         // you might want to "fetch" something...       
-        fetch(`/posts/${postId}/like`, {
+        fetch(`/like/${postId}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }) 
+        })
     }
 
     function handleDeleteClick(event) {
@@ -37,11 +38,10 @@
 
         // you might want to "fetch" something...  
         fetch(`/posts/${postId}`, {
-            method: 'DELETE',
+            method: 'DELETE',   
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })      
-        
+        })
     }    
 </script>
