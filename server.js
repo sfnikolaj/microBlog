@@ -265,7 +265,6 @@ function loginUser(req, res) {
 // Function to logout a user
 function logoutUser(req, res) {
     // TODO: Destroy session and redirect appropriately
-
     req.session.destroy();
     res.redirect('/');
 }
