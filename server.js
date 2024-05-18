@@ -1,7 +1,7 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const session = require('express-session');
-const canvas = require('canvas');
+const { createCanvas } = require('canvas');
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Configuration and Setup
@@ -173,8 +173,17 @@ app.get('/profile', isAuthenticated, (req, res) => {
     renderProfile(req, res);
 });
 app.get('/avatar/:username', (req, res) => {
-    // TODO: Serve the avatar image for the user
-    handleAvatar(req, res);
+    const username = req.params.username;
+    const user = findUserByUsername(username);
+
+    if (user) {
+        const letter = username.charAt(0).toUpperCase();
+        const avatar = generateAvatar(letter);
+        res.set('Content-Type', 'image/png');
+        res.send(avatar);
+    } else {
+        res.sendStatus(404);
+    }
 });
 app.post('/register', (req, res) => {
     // TODO: Register a new user
@@ -388,5 +397,23 @@ function addPost(title, content, user) {
 
 // Function to generate an image avatar
 function generateAvatar(letter, width = 100, height = 100) {
-    // Choose a color scheme based on the letter
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+
+    // Choose a background color
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#33FFF3'];
+    const backgroundColor = colors[letter.charCodeAt(0) % colors.length];
+
+    // Draw background
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw letter
+    ctx.font = `${width * 0.6}px Arial`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(letter, width / 2, height / 2);
+
+    return canvas.toBuffer();
 }
