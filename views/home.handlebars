@@ -48,8 +48,28 @@
 </section>
 
 
+
 {{! JavaScript for Emoji Integration }}
 <script>
+    async function likePost(postId) {
+        try {
+            const response = await fetch(`/like/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                console.log('Post liked successfully.');
+                window.location.reload();
+            } else {
+                console.error('Error liking post.');
+                alert('Error liking post. You must be logged in.');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    }
 
 /*
  You want to show a subset of the emojis. About 200. However,

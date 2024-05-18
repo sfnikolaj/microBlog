@@ -135,9 +135,38 @@ app.post('/posts', (req, res) => {
     }
     res.redirect('/');
 });
-app.post('/like/:id', (req, res) => {
+
+app.post('/like/:id', isAuthenticated, (req, res) => {
     // TODO: Update post likes
-    updatePostLikes(req, res);
+    const postId = parseInt(req.params.id);
+    const userId = req.user ? req.user.id : null;
+
+    console.log('Post ID:', postId);
+    console.log('User ID:', userId);
+
+    if (!userId) {
+        return res.status(400).send('User not authenticated.');
+    }
+
+    // Initialize user's likes array if it doesn't exist
+    if (!userLikes[userId]) {
+        userLikes[userId] = [];
+    }
+
+    // Check if the user has already liked the post
+    if (userLikes[userId].includes(postId)) {
+        return res.status(400).send('You have already liked this post.');
+    }
+
+    // Find the post and increment likes
+    const post = posts.find(post => post.id === postId);
+    if (post) {
+        post.likes++;
+        userLikes[userId].push(postId); // Record that the user liked this post
+        res.send({ likes: post.likes });
+    } else {
+        res.sendStatus(404);
+    }
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
@@ -263,11 +292,13 @@ function loginUser(req, res) {
     if (user) {
         req.session.userId = user.id;
         req.session.loggedIn = true;
+        console.log("User logged in. UserID:", user.id); 
         res.redirect('/');
     } else {
         res.redirect('/login?error=Invalid+username');
     }
 }
+
 
 // Function to logout a user
 function logoutUser(req, res) {
@@ -300,18 +331,11 @@ function renderProfile(req, res) {
     });
 }
 
+const userLikes = {};
 // Function to update post likes
 function updatePostLikes(req, res) {
     // TODO: Increment post likes if conditions are met
-    const postId = parseInt(req.params.id);
-    const post = posts.find(post => post.id === postId);
-    res.send("button pressed");
-    if (post) {
-    post.likes++;
-    res.redirect('/');
-    } else {
-        res.sendStatus(404);
-    }
+    return
 }
 
 // Function to handle avatar generation and serving
@@ -331,26 +355,17 @@ function handleAvatar(req, res) {
 
 // Function to get the current user from session
 function getCurrentUser(req) {
-    // TODO: Return the user object if the session user ID matches
-    // const username = req.body.username;
-    // //console.log("Username: ", username);
-    // const name = findUserByUsername(username);
-    // if (name) {
-    //     //console.log("User ID:", name.id);
-    //     for (let user of users) {
-    //         if (user.id === name.id){
-    //             //console.log("User found");
-    //             return user;
-    //         }
-    //     }
-    // }
     const userId = req.session.userId;
-    for (let user of users) {
-        if (user.id === userId) {
-            return user;
+    if (userId) {
+        for (let user of users) {
+            if (user.id === userId) {
+                return user;
+            }
         }
     }
-}
+    return null; // Return null if user is not found or not authenticated
+ }
+ 
 
 // Function to get all posts, sorted by latest first
 function getPosts() {

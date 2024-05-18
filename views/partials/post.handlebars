@@ -14,24 +14,38 @@
             <!-- everything that is shown in the status bar -->
             <!-- Heart = ♥ -->
             <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
-            <button class="like-button" data-id="{{posts._id}}" onclick="handleLikeClick(event)">♥</button>
+            <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">♥</button>
             <button class="delete-button" data-id="{{posts._id}}" onclick="handleDeleteClick(event)"><i class="fas fa-trash-alt"></i></button>
         </div>        
     </div>
 </div>
 <script>
 
-    function handleLikeClick(event) {
+    async function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
-        console.log("clicked");
+        console.log("Like button clicked for post ID:", postId);
         event.preventDefault();
-        // you might want to "fetch" something...       
-        fetch(`/like/${postId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+
+        try {
+            const response = await fetch(`/like/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const likesElement = document.getElementById(`post-likes-${postId}`);
+                likesElement.textContent = `Likes: ${data.likes}`;
+            } else {
+                const errorText = await response.text();
+                console.error('Error liking post:', errorText);
+                alert(errorText);
             }
-        })
+        } catch (error) {
+            console.error('Network error:', error);
+        }
     }
 
     function handleDeleteClick(event) {
