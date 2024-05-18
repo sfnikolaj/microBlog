@@ -297,10 +297,10 @@ function updatePostLikes(req, res) {
     // TODO: Increment post likes if conditions are met
     const postId = parseInt(req.params.id);
     const post = posts.find(post => post.id === postId);
-    console.log("button pressed");
+    res.send("button pressed");
     if (post) {
     post.likes++;
-    res.json({ likes: post.likes });
+    res.redirect('/');
     } else {
         res.sendStatus(404);
     }
@@ -366,24 +366,4 @@ function addPost(title, content, user) {
 // Function to generate an image avatar
 function generateAvatar(letter, width = 100, height = 100) {
     // Choose a color scheme based on the letter
-    const colors = ['#FF5733', '#C70039', '#900C3F', '#581845'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-
-    // Create a canvas with the specified width and height
-    const canvas = canvas.createCanvas(width, height);
-    const context = canvas.getContext('2d');
-
-    // Draw the background color
-    context.fillStyle = color;
-    context.fillRect(0, 0, width, height);
-
-    // Draw the letter in the center
-    context.font = `${Math.floor(width / 2)}px Arial`;
-    context.fillStyle = 'white';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    context.fillText(letter, width / 2, height / 2);
-
-    // Return the avatar as a PNG buffer
-    return canvas.toBuffer();
 }

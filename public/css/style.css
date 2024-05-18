@@ -1,5 +1,174 @@
-.header-logo{
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
+/* Ensure the html and body elements take up the full height and width of the viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header and Navigation Bar Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a8acaf;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Adjust if necessary */
+}
+
+.header-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.header-title {
+    font-size: 24px;
+    color: #0188e2;
+}
+
+nav {
+    background-color: #a8acaf;
+    padding: 0;
+    margin-right: 20px; /* Adjust if necessary */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav li {
+    margin: 0 10px; /* Adjust margin for spacing between items */
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px; /* Adjust padding for clickable area */
+    display: block;
+}
+
+nav a:hover {
+    background-color: #fff;
+    color: #0188e2;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Adjust if necessary */
+}
+
+.header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f1f1f1;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    color: #666;
+}
+
+
+/* General Box Styling for Posts */
+.post {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Avatar Styling */
+.post-avatar {
+    margin-right: 16px;
+}
+
+.post-avatar img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+/* Content Styling */
+.post-content {
+    flex-grow: 1;
+}
+
+.post-title {
+    margin: 0 0 8px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.post-body {
+    margin: 0 0 8px;
+    font-size: 1em;
+    color: #666;
+}
+
+.post-username {
+    margin: 0 0 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.post-likes {
+    margin: 0 0 8px;
+    font-size: 0.9em;
+    color: #999;
+}
+
+/* Status Bar Styling */
+.post-status-bar {
+    display: flex;
+    align-items: center;
+}
+
+.like-button, .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-right: 8px;
+    color: #888;
+    transition: color 0.3s;
+}
+
+.like-button:hover, .delete-button:hover {
+    color: #e74c3c;
+}
+
+.delete-button i {
+    font-size: 1.2em;
 }
