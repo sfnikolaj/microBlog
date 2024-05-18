@@ -288,8 +288,16 @@ function logoutUser(req, res) {
 function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
     const user = getCurrentUser(req);
-    const posts = getPosts()//.filter(post => post.username === user.username);
-    res.render('profile', { user, posts });
+    const userPosts = posts.filter(post => post.username === user.username);
+
+    // Render the profile template with user data and userPosts
+    res.render('profile', {
+        user: {
+            ...user,
+            posts: userPosts,
+        },
+        postNeoType: 'Post', // or whatever neologism you choose
+    });
 }
 
 // Function to update post likes
