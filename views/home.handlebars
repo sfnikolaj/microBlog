@@ -31,16 +31,15 @@
         </section>
     {{/if}}
 
-    <section class="posts-list">
-        <!-- recent posts -->
+    <section class="posts-list-container">
         <h2>Recent Posts</h2>
         {{#if posts.length}}
-        <ul>
-            {{#each posts}}
-                <!-- you have to pass the user in to posts and this is the syntax -->
-                {{> post this user=../user}} 
-            {{/each}}
-        </ul>
+            <ul class="posts-list">
+                {{#each posts}}
+                    <!-- you have to pass the user in to posts and this is the syntax -->
+                    {{> post this user=../user}} 
+                {{/each}}
+            </ul>
         {{else}}
             <!-- no posts, oh no, what now? -->
             <p>No posts yet. Be the first to post!</p>

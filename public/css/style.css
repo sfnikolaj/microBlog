@@ -98,15 +98,28 @@ footer p {
 }
 
 
+/* Container to center the post boxes */
+.post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+}
+
 /* General Box Styling for Posts */
 .post {
     display: flex;
+    flex-direction: row;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px;
     margin: 16px 0;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Set a max width for the post boxes */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 /* Avatar Styling */
@@ -171,4 +184,32 @@ footer p {
 
 .delete-button i {
     font-size: 1.2em;
+}
+
+/* Container for centering the posts list */
+.posts-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Container to center the post boxes */
+.post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+}
+
+/* Centering the heading */
+.posts-list-container h2 {
+    text-align: center;
+    width: 100%;
 }
