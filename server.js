@@ -168,6 +168,25 @@ app.post('/like/:id', isAuthenticated, (req, res) => {
         res.sendStatus(404);
     }
 });
+app.post('/delete/:id', isAuthenticated, (req, res) => {
+    const postId = parseInt(req.params.id);
+    const userId = req.user ? req.user.id : null;
+
+    if (!userId) {
+        return res.status(400).send('User not authenticated.');
+    }
+
+    const postIndex = posts.findIndex(post => post.id === postId && post.username === findUserById(userId).username);
+
+    if (postIndex > -1) {
+        posts.splice(postIndex, 1);
+        res.json({ success: true });
+    } else {
+        console.error(`Failed to delete post: Post not found or user not authorized. Post ID: ${postId}, User ID: ${userId}`);
+        res.json({ success: false, message: 'You can only delete your own posts.' });
+    }
+});
+
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
     renderProfile(req, res);
@@ -205,9 +224,8 @@ app.get('/logout', (req, res) => {
     // TODO: Logout the user
     logoutUser(req, res);
 });
-app.post('/delete/:id', isAuthenticated, (req, res) => {
-    // TODO: Delete a post if the current user is the owner
-});
+
+
 
 
 // Based on picture you took on wednesday lecture
